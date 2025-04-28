@@ -8,7 +8,7 @@ on:
 
 jobs:
 # Setup: optimization
-  setup:
+  project-setup:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
@@ -23,6 +23,9 @@ jobs:
       run: |
         curl -sSL https://install.python-poetry.org | python3
         echo "$HOME/local/bin" >> $GITHUB_PATH
+
+    - name: Save Poetry Path
+      run: echo "POETRY_PATH=$HOME/.local/bin/poetry" >> $GITHUB_ENV
 
   docker-build:
     needs: setup
