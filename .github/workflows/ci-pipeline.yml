@@ -28,21 +28,21 @@ jobs:
       run: echo "POETRY_PATH=$HOME/.local/bin/poetry" >> $GITHUB_ENV
 
   docker-build:
-    needs: setup
+    needs: project-setup
     runs-on: ubuntu-latest
     steps:
     - name: Build Docker Image
       run: docker build -t docker-python-poetry .
 
   app-build:
-    needs: setup
+    needs: project-setup
     runs-on: ubuntu-latest
     steps:
     - name: Install app dependencies
       run: poetry install
 
   security-check:
-    needs: setup
+    needs: project-setup
     runs-on: ubuntu-latest
     steps:
     - name: Run Security Check
