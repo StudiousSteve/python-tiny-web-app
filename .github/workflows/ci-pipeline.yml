@@ -1,3 +1,11 @@
+name: Docker CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
 jobs:
 # Setup: optimization
   setup:
@@ -38,4 +46,3 @@ jobs:
       run: |
         poetry install --only=security
         poetry run bandit -r .
-0
