@@ -84,4 +84,5 @@ jobs:
     - name: Build and Run App
       run: | 
         poetry install
-        poetry run uvicorn back-end.main:app --reload
+        poetry run uvicorn back-end.main:app --reload &
+        curl -X GET "http://localhost:8000/data"
