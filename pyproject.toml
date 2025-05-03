@@ -20,6 +20,7 @@ build-backend = "poetry.corpoetry e.masonry.api"
 
 [tool.poetry]
 package-mode = false
-[tool.poetry.group.dev.dependencies]
+
+[tool.poetry.group.security.dependencies]
 bandit = ">=1.8"
 
