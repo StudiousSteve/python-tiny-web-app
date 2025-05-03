@@ -84,5 +84,4 @@ jobs:
     - name: Build and Run App
       run: | 
         poetry install
-        poetry run uvicorn -V
-        echo "hello, damon"
+        poetry run uvicorn back-end.main:app --reload
