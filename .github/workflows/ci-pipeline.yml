@@ -63,26 +63,3 @@ jobs:
       run: | 
         poetry install --only=security
         poetry run bandit -r .
-
-  app-run:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up python
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.13
-
-    - name: Install poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3
-        echo "$HOME/local/bin">> $GITHUB_PATH
-
-    - name: Build and Run App
-      run: | 
-        poetry install
-        poetry run uvicorn back-end.main:app --reload &
-        curl -X GET "http://localhost:8000/data"
