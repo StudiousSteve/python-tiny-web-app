@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Tiny Web App</title>
+    <title>Weather App</title>
     <script src="https://unpkg.com/htmx.org"></script>
+    <style>
+        .nav { display: flex; gap: 15px; margin-bottom: 20px; }
+        .modal { position: fixed; top: 20%; left: 40%; padding: 20px; background: white; box-shadow: 2px 2px 10px #888; }
+    </style>
 </head>
 <body>
-    <h1>Python Tiny Web App</h1>
-    <button hx-get="/data" hx-target="#output">Fetch Data</button>
-    <div id="output"></div>
+    <h1>Live Weather Dashboard</h1>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <button hx-get="/weather" hx-target="#content">Weather</button>
+        <button hx-get="/about" hx-target="#content">About</button>
+        <button hx-get="/contact" hx-target="#content">Contact</button>
+    </div>
+
+    <!-- Dynamic Content Area -->
+    <div id="content">
+        <p>Click a button above to load content dynamically!</p>
+    </div>
+
+    <!-- Modal Trigger -->
+    <button hx-get="/modal" hx-target="body" hx-swap="beforeend">Open Modal</button>
 </body>
 </html>
