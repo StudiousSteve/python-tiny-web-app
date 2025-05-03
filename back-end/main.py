@@ -9,7 +9,7 @@ templates = Jinja2Templates(directory="templates")
 
 app.mount(path="/back-end/static", app=StaticFiles(directory="back-end/static"), name="static")
 
-@app.get(path="/", response_class=HTMLResponse)
+@app.get(path="/")
 def home(request: Request) -> HTMLResponse:
 	response = templates.TemplateResponse("home.html", {"request": request})
 	return HTMLResponse(content=response.body)
