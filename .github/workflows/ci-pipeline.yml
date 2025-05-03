@@ -41,9 +41,6 @@ jobs:
 
     - name: Install app dependencies
       run: ~/.local/bin/poetry install
-    
-    - name: Run App
-      run: poetry run python tiny-web-app/tiny-web-app.py
 
   security-check:
     runs-on: ubuntu-latest

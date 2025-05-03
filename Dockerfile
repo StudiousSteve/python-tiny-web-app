@@ -23,4 +23,4 @@ RUN /root/.local/bin/poetry install
 COPY . /python-get-weather/
 
 # Run the application
-CMD ["poetry", "run", "python", "main.py"]
+CMD ["poetry", "run", "python", "back-end", "main.py"]
