@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y curl
 RUN curl -sSL http://install.python-poetry.org | python3
 
 # Add poetry to path
-ENV PATH="root/local/bin:$PATH"
+ENV PATH="/root/.local/bin:$PATH"
 
 # Copy depenedency files
 COPY pyproject.toml poetry.lock /python-get-weather/
@@ -20,7 +20,10 @@ COPY pyproject.toml poetry.lock /python-get-weather/
 RUN /root/.local/bin/poetry install
 
 # Copy the application code
-COPY . /python-get-weather/
+COPY . .
 
-# Run the application
-CMD ["poetry", "run", "python", "back-end", "main.py"]
+# Expose port 8000 for FastAPI
+EXPOSE 8000
+
+# Run FastAPI app
+CMD ["poetry", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
