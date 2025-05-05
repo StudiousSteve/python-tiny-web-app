@@ -1,25 +1,19 @@
-# Use the official python 3.13 image as base
-FROM python:3.13-slim
+# Use official Python image
+FROM python:3.11
 
-# Set working dir in container
-WORKDIR /python-get-weather
+# Set working directory inside container
+WORKDIR /app
 
-# Install curl and other dependencies
-RUN apt-get update && apt-get install -y curl
+# Copy only Poetry files first to optimize caching
+COPY pyproject.toml poetry.lock ./
 
-# Install poetry
-RUN curl -sSL http://install.python-poetry.org | python3
+# Install Poetry and dependencies
+RUN pip install --no-cache-dir poetry && poetry install --no-root
 
-# Add poetry to path
+# Ensure Poetry is available in the container's PATH
 ENV PATH="/root/.local/bin:$PATH"
 
-# Copy depenedency files
-COPY pyproject.toml poetry.lock /python-get-weather/
-
-# Install depenedencies
-RUN /root/.local/bin/poetry install
-
-# Copy the application code
+# Copy remaining app files
 COPY . .
 
 # Expose port 8000 for FastAPI

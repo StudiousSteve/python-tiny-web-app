@@ -22,17 +22,14 @@ jobs:
 
       - name: Run Container
         run: docker run -d -p 8000:8000 my-fastapi-app poetry run uvicorn api.main:app --host 0.0.0.0 --port 8000
+        
+      - name: Wait for API Startup
+        run: sleep 10
 
       - name: List Running Containers
         run: docker ps -a
 
-      - name: Check FastAPI Container Logs
-        run: docker logs $(docker ps -q)
-
-      - name: Wait for API Startup
-        run: sleep 20
-
-      - name: Curl this
+      - name: Test API Endpoint
         run: curl -s -o /dev/null -w "%{http_code}" http://localhost:8000
 
   app-build:
