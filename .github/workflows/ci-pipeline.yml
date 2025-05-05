@@ -23,8 +23,20 @@ jobs:
       - name: Run Container
         run: docker run -d -p 8000:8000 my-fastapi-app poetry run uvicorn api.main:app --host 0.0.0.0 --port 8000
 
-      - name: Check API Readiness
-        run: sleep 10 && curl -s -o /dev/null -w "%{http_code}" http://localhost:8000
+      - name: List Running Containers
+        run: docker ps -a
+
+      - name: Check FastAPI Container Logs
+        run: docker logs $(docker ps -q)
+
+      - name: Run FastAPI Container
+        run: docker run -d -p 8000:8000 my-fastapi-app poetry run uvicorn api.main:app --host 0.0.0.0 --port 8000
+
+      - name: Wait for API Startup
+        run: sleep 20
+
+      - name: Curl this
+        run: curl -s -o /dev/null -w "%{http_code}" http://localhost:8000
 
   app-build:
     runs-on: ubuntu-latest
