@@ -7,20 +7,24 @@ on:
   pull_request:
 
 jobs:
-  docker-build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Docker
+        run: docker --version
+      
+      - name: Build Docker Image
+        run: docker build -t my-fastapi-app .
 
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.13
-  
-    - name: Build Docker Image
-      run: docker build -t docker-python-poetry .
+      - name: Run Container
+        run: docker run -d -p 8000:8000 my-fastapi-app poetry run uvicorn api.main:app --host 0.0.0.0 --port 8000
+
+      - name: Check API Readiness
+        run: sleep 5 && curl -s -o /dev/null -w "%{http_code}" http://localhost:8000
 
   app-build:
     runs-on: ubuntu-latest
