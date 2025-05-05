@@ -2,18 +2,19 @@ import httpx
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from typing import Any
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 NWS_API_URL = "https://api.weather.gov/gridpoints/MPX/107,65/forecast"
 
-async def get_weather():
+async def get_weather()->list[Any]:
     async with httpx.AsyncClient() as client:
         response = await client.get(NWS_API_URL)
         responses  = []
         if response.status_code == 200:
-            responses = response.json().get("properties", {}).get("periods", [])
+            responses: list[Any] = response.json().get("properties", {}).get("periods", [])
         return responses
 
 @app.get("/", response_class=HTMLResponse)
