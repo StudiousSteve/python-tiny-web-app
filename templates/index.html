@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- HEAD -->
+<head>
+
+    <title>Tiny Weather API</title>
+    <!-- import htmx -->
+    <script src="https://unpkg.com/htmx.org"></script>
+    <!-- import tailwind css -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Get Forecast onclick -->
+    <script>
+        function refreshForecast(button) {
+            document.getElementById('forecast-container').innerHTML = ''; // Clear old content    
+            // Correctly trigger HTMX with the unit parameter
+            htmx.trigger(button);
+        }
+    </script>
+
+</head>
+
+<!-- BODY -->
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
+    <!-- Outer wrapper for modern layout -->
+    <div class="max-w-md mx-auto bg-gray-900 p-6 rounded-lg shadow-lg">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <h1 class="text-2xl font-bold">Weather Forecast</h1>
+            <p class="text-gray-400">Stay updated with the latest weather predictions</p>
+             <!-- Get Forecast -->
+            <button 
+                class="mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded shadow-lg"
+                hx-get="/click"
+                hx-target="#forecast-container"
+                hx-swap="innerHTML"
+                onclick=refreshForecast(this)>
+                Get Forecast
+            </button>
+            <!-- Forecast Container -->
+            <div
+            id="forecast-container"
+            class="mt-4"></div>
+        </div>
+    </div>
+</body>
+
+</html>
