@@ -1,19 +1,25 @@
-# Use official Python image
-FROM python:3.11
+# Use the official python 3.13 image as base
+FROM python:3.13-slim
 
-# Set working directory inside container
-WORKDIR /app
+# Set working dir in container
+WORKDIR /python-tiny-web-app
 
-# Copy only Poetry files first to optimize caching
-COPY pyproject.toml poetry.lock ./
+# Install curl and other dependencies
+RUN apt-get update && apt-get install -y curl
 
-# Install Poetry and dependencies
-RUN pip install --no-cache-dir poetry && poetry install --no-root
+# Install poetry
+RUN curl -sSL http://install.python-poetry.org | python3
 
-# Ensure Poetry is available in the container's PATH
+# Add poetry to path
 ENV PATH="/root/.local/bin:$PATH"
 
-# Copy remaining app files
+# Copy depenedency files
+COPY pyproject.toml poetry.lock /python-tiny-web-app/
+
+# Install depenedencies
+RUN /root/.local/bin/poetry install
+
+# Copy the application code
 COPY . .
 
 # Expose port 8000 for FastAPI
